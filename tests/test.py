@@ -14,9 +14,9 @@ def test_setup_db():
     test_data = [{'school.id': 'Test University', '2018.student.size': 1000, 'school.state': 'MA', 'id': 11001,
                   '2017.earnings.3_yrs_after_completion.overall_count_over_poverty_line': 456,
                   '2016.repayment.3_yr_repayment.overall': 4004}]
-    main.insert_data(test_data,cursor)
+    main.insert_schools_data(test_data,cursor)
     main.close_db(conn)
-    # test data is saved to see if it is there
+    # test data is saved to see if i t is there
     conn,cursor = main.open_db('testdb.sqlite')
     cursor.execute()
     cursor.execute('''SELECT name FROM sqlite_master
