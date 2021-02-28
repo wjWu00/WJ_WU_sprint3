@@ -10,7 +10,7 @@ def test_get_data():
 def test_setup_db():
     # add test data
     conn, cursor = main.open_db("testdb.sqlite")
-    main.setup_db(cursor)
+    main.setup_schools_table(cursor)
     test_data = [{'school.id': 'Test University', '2018.student.size': 1000, 'school.state': 'MA', 'id': 11001,
                   '2017.earnings.3_yrs_after_completion.overall_count_over_poverty_line': 456,
                   '2016.repayment.3_yr_repayment.overall': 4004}]
