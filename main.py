@@ -1,6 +1,10 @@
 import requests
 import secrets
 import sqlite3
+import xlrd
+import sys
+from importlib import reload
+reload(sys)
 from typing import Tuple
 
 def get_data():
@@ -28,6 +32,36 @@ def get_data():
         all_data.extend(current_page['results'])
 
     return all_data
+
+def open_excel(file='state_M2019_dl.xlsx'):
+    try:
+        excel_data = xlrd.open_workbook(file)  # open excel file
+        print(sys.getsizeof(excel_data))
+        return excel_data
+    except:
+        print("open excel file failed!")
+
+
+def excel_table(file='', colindex=[0], table_name='State_M2019_dl'):
+    data = open_excel(file)
+    table = data.sheet_by_name(table_name)  # get sheet form excel file
+    nrows = table.nrows  # get the numbers of rows
+    t_name = table.row_values(0)[0].encode('utf8') #the name of the table
+    colnames = table.row_values(1)  # get the value of the first col as key value
+    list = []
+
+    list.append(t_name)
+    list.append(colnames)
+    for rownum in range(2, nrows): #get the from second row
+        row = table.row_values(rownum)
+        if row:
+            app = []
+            for i in colindex:
+                app.append(str(row[i]).encode("utf-8") )
+            list.append(app)
+    return list
+
+
 
 def open_db(filename: str) -> Tuple[sqlite3.Connection, sqlite3.Cursor]:
     db_connection = sqlite3.connect(filename)
@@ -76,7 +110,7 @@ def insert_schools_data(all_data, cursor):
 
 def insert_employment_data(sheet, cursor):
     for employment_data in sheet:
-        cursor.execute("""INSERT INTO EMPLOYMENT(state_name, occupation_major,total_emplpyment, 25th_percentile_salary_hourly, 25th_percentile_salary_annual,
+        cursor.execute("""INSERT INTO STATE_EMPLOYMENT(state_name, occupation_major,total_emplpyment, 25th_percentile_salary_hourly, 25th_percentile_salary_annual,
         occupation_code)
         VALUES (?,?,?,?,?,?);""", (employment_data['state_name'], employment_data['occupation_major'],employment_data['total_emplpyment'],
                                    employment_data['25th_percentile_salary_hourly'], employment_data['25th_percentile_salary_annual'],
