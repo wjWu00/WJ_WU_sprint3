@@ -44,7 +44,7 @@ def open_excel(file='state_M2019_dl.xlsx'):
 
 def excel_table(file='', colindex=[0], table_name='State_M2019_dl'):
     data = open_excel(file)
-    table = data.sheet_by_name(table_name)  # get sheet form excel file
+    table = data.sheet_by_name(table_name)  # get the sheet form excel file
     nrows = table.nrows  # get the numbers of rows
     t_name = table.row_values(0)[0].encode('utf8') #the name of the table
     colnames = table.row_values(1)  # get the value of the first col as key value
@@ -57,7 +57,7 @@ def excel_table(file='', colindex=[0], table_name='State_M2019_dl'):
         if row:
             app = []
             for i in colindex:
-                app.append(str(row[i]).encode("utf-8") )
+                app.append(str(row[i]).encode("utf-8"))
             list.append(app)
     return list
 
@@ -108,22 +108,33 @@ def insert_schools_data(all_data, cursor):
               univ_data['2017.earnings.3_yrs_after_completion.overall_count_over_poverty_line'],
               univ_data['2016.repayment.3_yr_repayment.overall']))
 
-def insert_employment_data(sheet, cursor):
-    for employment_data in sheet:
-        cursor.execute("""INSERT INTO STATE_EMPLOYMENT(state_name, occupation_major,total_emplpyment, 25th_percentile_salary_hourly, 25th_percentile_salary_annual,
-        occupation_code)
-        VALUES (?,?,?,?,?,?);""", (employment_data['state_name'], employment_data['occupation_major'],employment_data['total_emplpyment'],
-                                   employment_data['25th_percentile_salary_hourly'], employment_data['25th_percentile_salary_annual'],
-                                   employment_data['occupation_code']))
 
 
-def main():
+
+def main(file_name,colindex):
     all_data = get_data()
     conn, cursor = open_db("college_data.sqlite")
     setup_schools_table(cursor)
     setup_state_table(cursor)
     close_db(conn)
 
+    tables = excel_table(file_name,colindex, table_name='State_M2019_dl')
+    t_name = tables.pop(0)
+    key_list = ','.join(tables.pop(0)).encode('utf8')   #list transfer to str
+    sql_line = "INSERT INTO "+t_name+"（"+key_list+"）VALUE"
+    line = ''
+    for info in tables:
+        content = ','.join(info)
+        if line != '':
+            line =line + ',(' + content + ')'
+        else:
+            line = '('+content+')'
+    sql_line = sql_line + line + ';'
+    with open('college_data.sqlite', 'w') as f:  # open sql file and write the file in lines
+        f.write(sql_line)
+
 
 if __name__ == '__main__':
-    main()
+    file_name = 'state_M2019_dl.xlsx' #put in the excel file
+    colindex = [1, 9, 10, 19, 25, 7]      #add the colinindex which you want.
+    main(file_name,colindex)

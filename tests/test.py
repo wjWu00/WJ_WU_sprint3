@@ -28,3 +28,5 @@ def test_setup_db():
     test_record = results[0]
     assert test_record[0] == 'Test University'
 
+
+
