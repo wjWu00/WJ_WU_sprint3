@@ -16,7 +16,7 @@ def test_setup_db():
                   '2016.repayment.3_yr_repayment.overall': 4004}]
     main.insert_schools_data(test_data,cursor)
     main.close_db(conn)
-    # test data is saved to see if i t is there
+    # test data is saved to see if it is there
     conn,cursor = main.open_db('testdb.sqlite')
     cursor.execute()
     cursor.execute('''SELECT name FROM sqlite_master

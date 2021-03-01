@@ -134,6 +134,6 @@ def main(file_name,colindex):
 
 
 if __name__ == '__main__':
-    file_name = 'state_M2019_dl.xlsx' #put in the excel file
+    file_name = 'state_M2019_dl.xlsx' #put in excel file
     colindex = [1, 9, 10, 19, 25, 7]      #add the colinindex which you want.
     main(file_name,colindex)
