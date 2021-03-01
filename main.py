@@ -117,7 +117,6 @@ def main(file_name,colindex):
     setup_schools_table(cursor)
     setup_state_table(cursor)
     close_db(conn)
-
     tables = excel_table(file_name,colindex, table_name='State_M2019_dl')
     t_name = tables.pop(0)
     key_list = ','.join(tables.pop(0)).encode('utf8')   #list transfer to str
