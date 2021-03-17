@@ -7,6 +7,7 @@ from importlib import reload
 reload(sys)
 from typing import Tuple
 
+
 def get_data():
     all_data = []
     response = requests.get(f'https://api.data.gov/ed/collegescorecard/v1/schools.json?school.degrees_awarded.predominant='
@@ -107,8 +108,6 @@ def insert_schools_data(all_data, cursor):
         """, (univ_data['id'], univ_data['school.name'], univ_data['school.state'], univ_data['2018.student.size'], univ_data['2017.student.size'],
               univ_data['2017.earnings.3_yrs_after_completion.overall_count_over_poverty_line'],
               univ_data['2016.repayment.3_yr_repayment.overall']))
-
-
 
 
 def main(file_name,colindex):
