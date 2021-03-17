@@ -94,9 +94,9 @@ def display2():
 def display_table():
 #data sorting
     Button(window, text="State", height=1, width=15).grid(row=25, column=1)
-    Button(window, text="Occupation", height=1, width=15).grid(row=25, column=2)
-    Button(window, text="TotalEmployee", height=1, width=15).grid(row=25, column=3)
-    Button(window, text="OccupationCode", height=1, width=15).grid(row=25, column=4)
+    Button(window, text="Occupation Title", height=1, width=15).grid(row=25, column=2)
+    Button(window, text="Total Employee", height=1, width=15).grid(row=25, column=3)
+    Button(window, text="Occupation Code", height=1, width=15).grid(row=25, column=4)
     Button(window, text="Salary 25%", height=1, width=15).grid(row=25, column=5)
 
 

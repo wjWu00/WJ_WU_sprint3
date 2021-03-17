@@ -1,10 +1,15 @@
 import main
+import GUI_data
 
 # get_data will get a total of 3203 school entries
 def test_get_data():
     result = main.get_data()
     assert len(result) == 3203
 
+def setup_db():
+    conn, cursor = main.open_db("testdb.sqlite")
+    main.setup_schools_table(cursor)
+    return conn,cursor
 
 # test the database file
 def test_setup_db():
@@ -29,4 +34,16 @@ def test_setup_db():
     assert test_record[0] == 'Test University'
 
 
+def test_excel():
+    result = main.excel_table()
+    assert len(result) == 36383  #excel file has 36383 rows
+
+def test_gui():
+    conn, cursor = main.open_db("testdb.sqlite")
+    GUI_data.state_employment(cursor)
+    test_data = [{'State Name': 'Alabama', 'Occupation Title': 'Financial Managers', 'Total Employee': 5480,
+                  'Occupation Code': '11-3031',
+                  'salary 25%': 87030}]
+    main.insert_schools_data(test_gui,cursor)
+    main.close_db(conn)
 
