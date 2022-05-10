@@ -1,4 +1,4 @@
-Project1 Sprint3, Spint4
+Project1
 Weijing Wu
 
 
